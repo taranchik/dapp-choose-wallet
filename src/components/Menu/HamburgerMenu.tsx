@@ -56,6 +56,11 @@ export const Styles = styled.div`
     cursor: pointer;
   }
 
+  .abbreviationText:hover {
+    cursor: initial;
+    color: black;
+  }
+
   @media (max-width: 600px) {
     & {
       display: block;
@@ -63,7 +68,13 @@ export const Styles = styled.div`
   }
 `;
 
-export const HamburgerMenu = () => {
+interface Props {
+  active: boolean;
+  accountAbbreviated: string | undefined | null;
+  connect: () => Promise<void>;
+}
+
+export const HamburgerMenu = ({ active, accountAbbreviated, connect }) => {
   const [makeAnimation, setMakeAnimation] = useState(false);
 
   const animateHamburgerBtn = () => setMakeAnimation(!makeAnimation);
@@ -79,8 +90,11 @@ export const HamburgerMenu = () => {
         <div className="bar3"></div>
       </div>
       <ul style={{ display: makeAnimation ? "block" : "none" }}>
-        <li>Connect your wallet</li>
-        <li>Connect</li>
+        {active ? (
+          <li className="abbreviationText">{accountAbbreviated}</li>
+        ) : (
+          <li onClick={connect}>Connect</li>
+        )}
       </ul>
     </Styles>
   );

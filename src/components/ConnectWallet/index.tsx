@@ -1,34 +1,14 @@
 import { BSC, ETH, MetaMask, not_selected, selected } from "../../assets";
 
-import { InjectedConnector } from "@web3-react/injected-connector";
 import { Styles } from "./Styles";
-import { useState } from "react";
-import { useWeb3React } from "@web3-react/core";
 
-const Wallet = () => {
-  const [networkChainID, setNetoworkChainID] = useState(0);
-  const { activate, deactivate } = useWeb3React();
+interface Props {
+  networkChainID: number;
+  setNetoworkChainID: () => void;
+  connect: () => Promise<void>;
+}
 
-  const connect = async () => {
-    const injected = new InjectedConnector({
-      supportedChainIds: [networkChainID ? networkChainID : 97],
-    });
-
-    try {
-      await activate(injected);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
-  const disconnect = async () => {
-    try {
-      deactivate();
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
+const ConnectWallet = ({ networkChainID, setNetoworkChainID, connect }: Props) => {
   const selectNetwork = (networkChainID: number) => {
     setNetoworkChainID(networkChainID);
   };
@@ -118,13 +98,13 @@ const Wallet = () => {
               draggable="false"
             />
           </div>
-          <button onClick={connect} className="connect-btn">
+          <div onClick={connect} className="connect-btn">
             Connect
-          </button>
+          </div>
         </div>
       </div>
     </Styles>
   );
 };
 
-export default Wallet;
+export default ConnectWallet;

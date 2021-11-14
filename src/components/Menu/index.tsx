@@ -1,11 +1,14 @@
 import { HamburgerMenu } from "./HamburgerMenu";
 import { Styles } from "./Styles";
 import { useMemo } from "react";
-import { useWeb3React } from "@web3-react/core";
 
-const Menu = () => {
-  const { active, account } = useWeb3React();
+interface Props {
+  active: boolean;
+  account: string | undefined | null;
+  connect: () => Promise<void>;
+}
 
+const Menu = ({ active, account, connect }: Props) => {
   const accountAbbreviated = useMemo(
     () =>
       account &&
@@ -21,7 +24,11 @@ const Menu = () => {
       <div className="menu-content">
         {active ? accountAbbreviated : "Connect your wallet"}
       </div>
-      <HamburgerMenu />
+      <HamburgerMenu
+        active={active}
+        accountAbbreviated={accountAbbreviated}
+        connect={connect}
+      />
     </Styles>
   );
 };

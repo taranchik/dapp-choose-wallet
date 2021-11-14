@@ -105,9 +105,7 @@ export const Styles = styled.div`
     padding: 20px;
   }
 
-  .connect-btn,
-  .connect-btn:active,
-  .connect-btn:focus {
+  .connect-btn {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -116,7 +114,7 @@ export const Styles = styled.div`
 
     position: static;
     width: 367px;
-    height: 56px;
+    height: 25px;
     background: #0ffff1;
 
     font-family: "Roboto";
@@ -126,7 +124,6 @@ export const Styles = styled.div`
     line-height: 23px;
     color: #002299;
     margin: 30px auto 0 auto;
-    border: none;
   }
 
   @media (max-width: 600px) {
