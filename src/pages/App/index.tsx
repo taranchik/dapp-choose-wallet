@@ -28,7 +28,7 @@ const Styles = styled.div`
 const web3 = new Web3(window.web3.currentProvider);
 
 const App = () => {
-  const { active, account, library, connector, activate, deactivate } =
+  const { active, account, activate, deactivate } =
     useWeb3React();
   const [isTransactionSuccessful, setIsTransactionSuccessful] = useState(false);
   const [networkChainID, setNetoworkChainID] = useState(0);
@@ -40,6 +40,7 @@ const App = () => {
         abi,
         networkChainID === 5 ? goerliContractAddress : binanceContractAddress
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [active]
   );
 
@@ -55,6 +56,7 @@ const App = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const disconnect = async () => {
     try {
       deactivate();

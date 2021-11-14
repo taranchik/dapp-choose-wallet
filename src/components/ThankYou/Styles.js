@@ -37,7 +37,7 @@ export const Styles = styled.div`
     color: #FFFFFF;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     &{
       span{
         width: 311px;

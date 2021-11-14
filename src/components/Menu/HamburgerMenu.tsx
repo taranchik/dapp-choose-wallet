@@ -74,7 +74,11 @@ interface Props {
   connect: () => Promise<void>;
 }
 
-export const HamburgerMenu = ({ active, accountAbbreviated, connect }) => {
+export const HamburgerMenu = ({
+  active,
+  accountAbbreviated,
+  connect,
+}: Props) => {
   const [makeAnimation, setMakeAnimation] = useState(false);
 
   const animateHamburgerBtn = () => setMakeAnimation(!makeAnimation);

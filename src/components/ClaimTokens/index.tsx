@@ -1,11 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Styles } from "./Styles";
-import { generateKey } from "crypto";
-import { isWhiteSpaceLike } from "typescript";
 import { sandbox } from "../../assets";
 
-const greyOutBtn = {
+const greyOutBtnStyles = {
   color: "white",
   background: "gray",
   cursor: "initial",
@@ -20,37 +18,46 @@ const ClaimTokens = ({
 }) => {
   const [transactionHash, setTransactionHash] = useState("");
   const [isAccountParticipating, setIsAccountParticipating] = useState(false);
-
-  useEffect(() => checkIsAccountParticipating(), [account]);
-
-  useEffect(
-    () => console.log("isAccountParticipating", isAccountParticipating),
-    [isAccountParticipating]
-  );
+  const [greyOutBtn, setgreyOutBtn] = useState(false);
 
   const checkIsAccountParticipating = async () => {
     const result = await smartContract.methods.isParticipating(account).call();
     setIsAccountParticipating(result);
   };
 
-  const options = {
-    filter: {
-      account,
-    },
-    fromBlock: 0,
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => checkIsAccountParticipating(), [account]);
 
-  smartContract.events.NewParticipant(options).on("data", (event) => {
-    console.log("Cought NewParticipant event: ", event);
-    !isTransactionSuccessful && setIsTransactionSuccessful(true);
-  });
+  // const options = {
+  //   filter: {
+  //     account,
+  //   },
+  //   fromBlock: 0,
+  // };
+
+  // smartContract.events.NewParticipant(options).on("data", (event) => {
+  //   if (!isTransactionSuccessful) {
+  //     console.log("Cought NewParticipant event: ", event);
+  //     setIsTransactionSuccessful(true);
+  //   }
+  // });
 
   const claimTokens = () =>
     !isAccountParticipating &&
     smartContract.methods
       .participate()
       .send({ from: account })
-      .on("transactionHash", (hash) => setTransactionHash(hash));
+      .on("transactionHash", (hash) => {
+        setgreyOutBtn(true);
+        setTimeout(() => setTransactionHash(hash), 5000);
+      })
+      .then((res) => {
+        setgreyOutBtn(false);
+        console.log("Block data: ", res);
+        return res.status
+          ? setIsTransactionSuccessful(true)
+          : setTransactionHash("");
+      });
 
   const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
@@ -113,8 +120,8 @@ const ClaimTokens = ({
               </div>
               <div
                 style={
-                  isAccountParticipating
-                    ? { ...greyOutBtn }
+                  isAccountParticipating || greyOutBtn
+                    ? { ...greyOutBtnStyles }
                     : { background: "#0ffff1" }
                 }
                 onClick={claimTokens}

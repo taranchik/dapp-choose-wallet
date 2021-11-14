@@ -15,7 +15,6 @@
 - [Possible improvements](#possible-improvements)
 - [How To Use](#how-to-use)
 - [References](#references)
-- [License](#license)
 - [Author Info](#author-info)
 
 ---
