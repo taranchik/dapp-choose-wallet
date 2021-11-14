@@ -4,8 +4,9 @@ import MetaMask from "./img/MetaMask.png";
 import not_selected from "./img/Diamon.png";
 import sandbox from "./img/sandbox.png";
 import selected from "./img/Diamond_selected.png";
+import success from "./img/success.png";
 
-export { BSC, ETH, MetaMask, not_selected, selected, sandbox };
+export { BSC, ETH, MetaMask, not_selected, selected, sandbox, success };
 
 export const binanceContractAddress =
   "0x0F3d5B978A143A1544B602808559f30d05Ade1ED";

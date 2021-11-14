@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Styles } from "./Styles";
 import { generateKey } from "crypto";
@@ -15,48 +15,47 @@ const ClaimTokens = ({
   smartContract,
   account,
   networkChainID,
+  isTransactionSuccessful,
   setIsTransactionSuccessful,
 }) => {
   const [transactionHash, setTransactionHash] = useState("");
+  const [isAccountParticipating, setIsAccountParticipating] = useState(false);
 
-  const isAccountParticipating = useMemo(
-    () =>
-      smartContract && smartContract.methods.isParticipating(account).call(),
-    [account]
+  useEffect(() => checkIsAccountParticipating(), [account]);
+
+  useEffect(
+    () => console.log("isAccountParticipating", isAccountParticipating),
+    [isAccountParticipating]
   );
+
+  const checkIsAccountParticipating = async () => {
+    const result = await smartContract.methods.isParticipating(account).call();
+    setIsAccountParticipating(result);
+  };
+
+  const options = {
+    filter: {
+      account,
+    },
+    fromBlock: 0,
+  };
+
+  smartContract.events.NewParticipant(options).on("data", (event) => {
+    console.log("Cought NewParticipant event: ", event);
+    !isTransactionSuccessful && setIsTransactionSuccessful(true);
+  });
 
   const claimTokens = () =>
     !isAccountParticipating &&
     smartContract.methods
       .participate()
       .send({ from: account })
-      .on("receipt", function (receipt) {
-        console.log(receipt);
-      })
       .on("transactionHash", (hash) => setTransactionHash(hash));
 
   const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;
   };
-
-  setInterval(
-    () =>
-      smartContract.methods
-        .isParticipating(account)
-        .call()
-        .then((res) => console.log("isParticipating", res)),
-    10000
-  );
-
-  setInterval(
-    () =>
-      smartContract.methods
-        .numberOfParticipants()
-        .call()
-        .then((res) => console.log("participants", res)),
-    10000
-  );
 
   return (
     <Styles>

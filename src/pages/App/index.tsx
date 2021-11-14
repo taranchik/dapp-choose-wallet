@@ -9,6 +9,7 @@ import ClaimTokens from "../../components/ClaimTokens";
 import ConnectWallet from "../../components/ConnectWallet";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import Menu from "../../components/Menu";
+import ThankYou from "../../components/ThankYou";
 import Web3 from "web3";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
@@ -29,11 +30,9 @@ const web3 = new Web3(window.web3.currentProvider);
 const App = () => {
   const { active, account, library, connector, activate, deactivate } =
     useWeb3React();
-  const [isTransactionSuccessful, setIsTransactionSuccessful] = useState(0);
+  const [isTransactionSuccessful, setIsTransactionSuccessful] = useState(false);
   const [networkChainID, setNetoworkChainID] = useState(0);
 
-
-  
   const smartContract = useMemo(
     () =>
       active &&
@@ -68,12 +67,17 @@ const App = () => {
     <Styles>
       <Menu active={active} account={account} connect={connect} />
       {active ? (
-        <ClaimTokens
-          account={account}
-          smartContract={smartContract}
-          networkChainID={networkChainID}
-          setIsTransactionSuccessful={setIsTransactionSuccessful}
-        />
+        isTransactionSuccessful ? (
+          <ThankYou />
+        ) : (
+          <ClaimTokens
+            account={account}
+            smartContract={smartContract}
+            networkChainID={networkChainID}
+            isTransactionSuccessful={isTransactionSuccessful}
+            setIsTransactionSuccessful={setIsTransactionSuccessful}
+          />
+        )
       ) : (
         <ConnectWallet
           networkChainID={networkChainID}
