@@ -9,16 +9,23 @@ const greyOutBtnStyles = {
   cursor: "initial",
 };
 
+interface Props {
+  smartContract: Object;
+  account: string;
+  networkChainID: number;
+  isTransactionSuccessful: boolean;
+  setIsTransactionSuccessful: () => void;
+}
+
 const ClaimTokens = ({
   smartContract,
   account,
   networkChainID,
   isTransactionSuccessful,
   setIsTransactionSuccessful,
-}) => {
+}: Props) => {
   const [transactionHash, setTransactionHash] = useState("");
   const [isAccountParticipating, setIsAccountParticipating] = useState(false);
-  const [greyOutBtn, setgreyOutBtn] = useState(false);
 
   const checkIsAccountParticipating = async () => {
     const result = await smartContract.methods.isParticipating(account).call();
@@ -47,12 +54,8 @@ const ClaimTokens = ({
     smartContract.methods
       .participate()
       .send({ from: account })
-      .on("transactionHash", (hash) => {
-        setgreyOutBtn(true);
-        setTimeout(() => setTransactionHash(hash), 5000);
-      })
+      .on("transactionHash", (hash) => setTransactionHash(hash))
       .then((res) => {
-        setgreyOutBtn(false);
         console.log("Block data: ", res);
         return res.status
           ? setIsTransactionSuccessful(true)
@@ -120,7 +123,7 @@ const ClaimTokens = ({
               </div>
               <div
                 style={
-                  isAccountParticipating || greyOutBtn
+                  isAccountParticipating
                     ? { ...greyOutBtnStyles }
                     : { background: "#0ffff1" }
                 }
