@@ -47,7 +47,7 @@
 - Web3 React - A simple, maximally extensible, dependency minimized framework for building modern Ethereum dApps to allow interact with MetaMask wallet in the Choose Wallet decentralized application.
 - Styled components - A React library providing unusual syntax for styling HTML tags.
 
-[Back To The Top](#cube-labirynth)
+[Back To The Top](#dapp-choose-wallet)
 
 ---
 
@@ -89,7 +89,7 @@ npm install && npm start
 
 [TypeScript](https://www.typescriptlang.org/)
 
-[Back To The Top](#cube-labirynth)
+[Back To The Top](#dapp-choose-wallet)
 
 ---
 
