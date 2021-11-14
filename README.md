@@ -11,6 +11,8 @@
 ### Table of Contents
 
 - [Description](#description)
+- [React Libraries](#react-libraries)
+- [Possible improvements](#possible-improvements)
 - [How To Use](#how-to-use)
 - [References](#references)
 - [License](#license)
@@ -42,10 +44,21 @@
 
 ![Thank you screen](https://i.imgur.com/KpygGYk.png)
 
-#### React Libraries
+---
+
+## React Libraries
 
 - Web3 React - A simple, maximally extensible, dependency minimized framework for building modern Ethereum dApps to allow interact with MetaMask wallet in the Choose Wallet decentralized application.
 - Styled components - A React library providing unusual syntax for styling HTML tags.
+
+[Back To The Top](#dapp-choose-wallet)
+
+---
+
+## Possible improvements
+
+- The state of the application is not persistent as well as the connection with the wallet, it would be fixed.
+- When the transaction is successfuly confirmed, the screen "Thank You" remains unchanged, would be added redirecting to the screen with wallet and network connection.
 
 [Back To The Top](#dapp-choose-wallet)
 
